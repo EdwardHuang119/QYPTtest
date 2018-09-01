@@ -40,8 +40,7 @@ class filedialogdemo(QWidget):
 	
 		if dlg.exec_():
 			filenames= dlg.selectedFiles()
-			f = open(filenames[0], 'r') 
-            
+			f = open(filenames[0], 'r')
 			with f:
 				data = f.read()
 				self.contents.setText(data) 
