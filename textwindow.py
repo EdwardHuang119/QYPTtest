@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 from PyQt5.QtWidgets import QFileDialog
 # from PyQt5 import *
 
@@ -58,13 +59,46 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
+        # 逐步开始定义槽相关内容
         self.pushButton_6.clicked.connect(MainWindow.close)
+        # 内建槽函数，关闭对话框
+        # 如下开始自行书写需要自定义的槽函数
+        self.pushButton.clicked.connect(self.showtxt)
+        self.pushButton_5.clicked.connect(self.showxml)
         self.pushButton_3.clicked.connect(self.fileschoose)
+        self.pushButton_2.clicked.connect(self.cleartxt)
+        self.pushButton_4.clicked.connect(self.filesave)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    # 定义各种槽函数
+    # 定义最基本的展现内容按钮
+    def showtxt(self):
+        self.textEdit.setPlainText("Hello PyQt5!\n点击按钮")
+    # 定义基本展现Xml格式的按钮
+    def showxml(self):
+        self.textEdit.setHtml("<font color='red' size='6'><red>Hello PyQt5!\n点击按钮。</font>")
+
+    # 展示一个打开文档并展现在某个对话框的按钮
     def fileschoose(self):
+        filename, _ = QFileDialog.getOpenFileName(self,'Open file','./')
+        if filename:
+            file = open(filename)
+            data = file.read()
+            self.textEdit.setText(data)
+            file.close()
+            print(data)
 
+    # 基本的清空对话框按钮
+    def cleartxt(self):
+        self.textEdit.setPlainText("")
 
+    def filesave(self):
+        filename, _ = QFileDialog.getSaveFileName(self, 'Save file', './',"All Files (*);;Text Files (*.txt)")
+        mytest =self.textEdit.toPlainText()
+        if filename:
+            file = open(filename,"w+")
+            file.write(mytest)
+            file.close()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
