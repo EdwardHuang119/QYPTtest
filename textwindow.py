@@ -79,26 +79,43 @@ class Ui_MainWindow(object):
         self.textEdit.setHtml("<font color='red' size='6'><red>Hello PyQt5!\n点击按钮。</font>")
 
     # 展示一个打开文档并展现在某个对话框的按钮
+    # 尝试定义起始路径
     def fileschoose(self):
-        filename, _ = QFileDialog.getOpenFileName(self,'Open file','./')
+        filename, _ = QFileDialog.getOpenFileName(self,'Open file','C:/Users/Edward & Bella/Documents',"All Files (*);;PDF Files (*.pdf);;Text Files (*.txt)")
         if filename:
             file = open(filename)
             data = file.read()
             self.textEdit.setText(data)
             file.close()
+            # 打印内容
             print(data)
+            # 打印路径
+            print(filename)
+            # print(os.path.expandvars('$HOME'))
 
     # 基本的清空对话框按钮
     def cleartxt(self):
         self.textEdit.setPlainText("")
 
     def filesave(self):
-        filename, _ = QFileDialog.getSaveFileName(self, 'Save file', './',"All Files (*);;Text Files (*.txt)")
+        filenamesave, _ = QFileDialog.getSaveFileName(self, 'Save file', './',"All Files (*);;Text Files (*.txt)")
         mytest =self.textEdit.toPlainText()
-        if filename:
-            file = open(filename,"w+")
+        if filenamesave:
+            file = open(filenamesave,"w+")
             file.write(mytest)
             file.close()
+            QtWidgets.QMessageBox.information(self, "MessageBox", "保存成功。Oh yeah!!")
+
+
+    def filesavemyself(self):
+        filenamemyself,_ = QFileDialog.getSaveFileName(self, 'Save file', './',"All Files (*);;Text Files (*.txt)")
+        mytest =self.textEdit.toPlainText()
+        if filenamemyself:
+            file = open(filenamemyself,"w+")
+            file.write(mytest)
+            file.close()
+            QtWidgets.QMessageBox.information(self, "MessageBox", "保存成功。Oh yeah!!")
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
